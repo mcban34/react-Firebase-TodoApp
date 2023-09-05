@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword , GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {useNavigate} from "react-router-dom"
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_APIKEY,
@@ -17,21 +18,33 @@ const auth = getAuth();
 function Login() {
     const [email, setEmail] = useState("")
     const [password, setSifre] = useState("")
+    const navigate = useNavigate();
 
+    //!e-posta ve şifre ile giriş yap
+    //!giriş başarılı ise ana sayfaya yönlendiridi
     const login = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                // Signed in 
                 const user = userCredential.user;
-                console.log(user);
-                alert("kullanıcı girişi sağlandı")
-                // ...
+                navigate("/home")
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode,errorMessage);
+                console.log("giriş yapılamadı!");
             });
+    }
+
+    //!google ile giriş yap
+    const handleGoogleLogin = async () => {
+        const provider = new GoogleAuthProvider();
+
+        try {
+            await signInWithPopup(auth, provider);
+            const user = auth.currentUser;
+            console.log("Google ile giriş yapıldı:", user);
+            navigate("/home")
+        } catch (error) {
+            console.error("Google ile giriş sırasında hata oluştu:", error);
+        }
     }
 
     return (
@@ -39,6 +52,7 @@ function Login() {
             <input type="text" placeholder='mail adresiniz' onKeyDown={(e) => setEmail(e.target.value)} />
             <input type="password" placeholder='şifreniz' onKeyDown={(e) => setSifre(e.target.value)} />
             <button onClick={login}>Giriş Yap</button>
+            <button onClick={handleGoogleLogin}>Goole ile giriş yap!</button>
         </div>
     )
 }

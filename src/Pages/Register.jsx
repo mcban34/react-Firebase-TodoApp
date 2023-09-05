@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -15,28 +15,49 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+const googleProvider = new GoogleAuthProvider();
 
 function Register() {
 
-    const navigate = useNavigate(); // useNavigate Hook'unu kullanın
+    const navigate = useNavigate();
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
+    //!Kullanıcın girişli olup olmadığını kontrol ettim
+    //!kullanıcı girişi varsa, doğrudan ana sayfaya yönlendirme yaptım
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                navigate("/home");
+            }
+        });
 
+        return () => unsubscribe();
+    }, [auth])
+
+    //!e-posta şifre ile kayıt işlemi
     const kayitOl = () => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                // Signed in 
                 const user = userCredential.user;
-                alert("Kayıt Tamam!")
-                navigate("/Home");
-                // ...
+                navigate("/Home"); //? => sayfa yönlendirici
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                // ..
+                console.log(errorCode,errorMessage);
             });
+    }
+
+    //!google ile giriş yapımı
+    const handleGoogleLogin = async () => {
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            const user = result.user;
+            console.log("Google ile giriş yapıldı:", user);
+        } catch (error) {
+            console.error("Google ile giriş sırasında hata oluştu:", error);
+        }
     }
 
     return (
@@ -44,6 +65,7 @@ function Register() {
             <input type="text" placeholder='email' onKeyDown={(e) => setEmail(e.target.value)} />
             <input type="text" placeholder='sifre' onKeyDown={(e) => setPassword(e.target.value)} />
             <button onClick={kayitOl}>Kayıt Ol</button>
+            <button onClick={handleGoogleLogin}>Google İle Kayı Ol</button>
         </div>
     )
 }
