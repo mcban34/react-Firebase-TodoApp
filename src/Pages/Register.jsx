@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged , GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
-
+import { getDatabase, ref, set } from 'firebase/database';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_APIKEY,
@@ -22,6 +22,7 @@ function Register() {
     const navigate = useNavigate();
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [userName,setUserName] = useState("")
 
     //!Kullanıcın girişli olup olmadığını kontrol ettim
     //!kullanıcı girişi varsa, doğrudan ana sayfaya yönlendirme yaptım
@@ -41,11 +42,18 @@ function Register() {
             .then((userCredential) => {
                 const user = userCredential.user;
                 navigate("/Home"); //? => sayfa yönlendirici
+                
+                //!user uid'sine göre veri kaydı
+                const db = getDatabase();
+                const userRef = ref(db, `users/${user.uid}`);
+                set(userRef,{
+                    userName:userName,
+                })
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                console.log(errorCode,errorMessage);
+                console.log(errorCode, errorMessage);
             });
     }
 
@@ -62,6 +70,7 @@ function Register() {
 
     return (
         <div>
+            <input type="text" placeholder='Kullanıcı Adı' onKeyDown={(e) => setUserName(e.target.value)} />
             <input type="text" placeholder='email' onKeyDown={(e) => setEmail(e.target.value)} />
             <input type="text" placeholder='sifre' onKeyDown={(e) => setPassword(e.target.value)} />
             <button onClick={kayitOl}>Kayıt Ol</button>

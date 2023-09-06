@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { initializeApp } from "firebase/app";
 import { signOut, getAuth, onAuthStateChanged, useAuth, setPersistence  } from "firebase/auth";
+import Todo from '../Components/Todo';
 
 
 const firebaseConfig = {
@@ -45,6 +46,8 @@ function Home() {
     <div>
       Home
       <button onClick={handleLogout}>Çıkış Yap</button>
+      <br /><br /><br /><br />
+      <Todo/>
     </div>
   )
 }
