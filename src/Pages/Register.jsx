@@ -47,6 +47,7 @@ function Register() {
                 const db = getDatabase();
                 const userRef = ref(db, `users/${user.uid}`);
                 set(userRef,{
+                    todos : "",
                     userName:userName,
                 })
             })
