@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword , GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword , GoogleAuthProvider, signInWithPopup , onAuthStateChanged } from "firebase/auth";
 import {useNavigate} from "react-router-dom"
 
 const firebaseConfig = {
@@ -19,6 +19,16 @@ function Login() {
     const [email, setEmail] = useState("")
     const [password, setSifre] = useState("")
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                navigate("/home");
+            }
+        });
+
+        return () => unsubscribe();
+    }, [auth])
 
     //!e-posta ve şifre ile giriş yap
     //!giriş başarılı ise ana sayfaya yönlendiridi
