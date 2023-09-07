@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged, useAuth, setPersistence } from "firebase/auth";
-import { getDatabase, ref, set, update, onValue, push } from 'firebase/database';
+import { getDatabase, ref, set, update, onValue, push,remove } from 'firebase/database';
 
 
 const firebaseConfig = {
@@ -25,20 +25,42 @@ function Todo() {
     const addTodo = () => {
         const user = auth.currentUser;
         if (user) {
-            //!yeni todoyu bir obje halinde elinde tut
+            // Yeni bir rastgele kimlik (ID) oluşturun
+            const newTodoId = push(ref(db, `users/${user.uid}/todos`)).key;
+
+            //! Yeni yapılacak işi bir obje olarak tutun
             const newTodo = {
                 text: todo,
                 completed: false,
+                todoId:newTodoId
             };
 
-            //!işi firebaseye kaydet
-            const todosRef = ref(db, `users/${user.uid}/todos`);
-            push(todosRef, newTodo)
+            //! Yapılacak işi Firebase'e kaydet
+            const todoRef = ref(db, `users/${user.uid}/todos/${newTodoId}`);
+            set(todoRef, newTodo)
                 .then(() => {
                     setTodo("");
                 })
                 .catch(error => {
                     console.error('Veri ekleme hatası:', error);
+                });
+        }
+    }
+
+    const deleteTodo = (todoId) => {
+        const user = auth.currentUser;
+        if (user) {
+            console.log("use içerisne girdi!!");
+            const todoRef = ref(db, `users/${user.uid}/todos/${todoId}`);
+            console.log(todoRef);
+            // Yapılacak işi silme işlemi
+            remove(todoRef)
+                .then(() => {
+                    // Silme başarılı oldu, gerekirse ek işlemleri burada yapabilirsiniz.
+                    console.log("silme işlemi başarılı!");
+                })
+                .catch(error => {
+                    console.error('Veri silme hatası:', error);
                 });
         }
     }
@@ -64,9 +86,9 @@ function Todo() {
             <button onClick={addTodo}>Ekle!</button>
             <ul>
                 {
-                    todosArray != "" ? (
+                    todosArray.length != 0 ? (
                         todosArray.slice().reverse().map((value, index) => (
-                            <li key={index}>{value.text}</li>
+                            <li key={index}>{value.text} <button onClick={() => deleteTodo(value.todoId)}>Yapıldı</button></li>
                         ))
                     ) : (<h2>Henüz Todo Yok!</h2>)
                 }
