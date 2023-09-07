@@ -20,7 +20,7 @@ const db = getDatabase();
 
 function Todo() {
     const [todo, setTodo] = useState("")
-    const [todosArray,setTodosArray] = useState([])
+    const [todosArray, setTodosArray] = useState([])
 
     const addTodo = () => {
         const user = auth.currentUser;
@@ -55,22 +55,22 @@ function Todo() {
                 });
             }
         });
-        
+
     }, [auth])
 
     return (
         <div>
             <input type="text" placeholder='iş ekle!' onKeyUp={(e) => setTodo(e.target.value)} />
             <button onClick={addTodo}>Ekle!</button>
-             <ul>
-                {   
-                    todosArray!="" ? (
-                        todosArray.map((value, index) => {
-                            return <li key={index}>{value.text}</li>
-                        })
-                    )  : (<h2>Henüz Todo Yok!</h2>)
+            <ul>
+                {
+                    todosArray != "" ? (
+                        todosArray.slice().reverse().map((value, index) => (
+                            <li key={index}>{value.text}</li>
+                        ))
+                    ) : (<h2>Henüz Todo Yok!</h2>)
                 }
-            </ul> 
+            </ul>
         </div>
     )
 }
