@@ -22,7 +22,16 @@ function Todo() {
     const [loading, setLoading] = useState(true);
     const [completedData, setCompletedData] = useState([])
 
+    //!yeni todolar ekle
     const addTodo = () => {
+        const suan = new Date();
+
+        const ay = suan.getMonth() + 1;
+        const gun = suan.getDate();
+        const yil = suan.getFullYear();
+        const saat = suan.getHours();
+        const dakika = suan.getMinutes();
+
         const user = auth.currentUser;
         if (user) {
             const newTodoId = push(ref(db, `users/${user.uid}/todos`)).key;
@@ -31,6 +40,8 @@ function Todo() {
                 text: todo,
                 completed: false,
                 todoId: newTodoId,
+                tarih: `${gun}/${ay}/${yil}`,
+                saat: `${saat}:${dakika}`
             };
 
             const todoRef = ref(db, `users/${user.uid}/todos/${newTodoId}`);
@@ -44,6 +55,7 @@ function Todo() {
         }
     };
 
+    //! todolar yapıldı olarak işaretlendi 
     const completedTodo = (todoId) => {
         const user = auth.currentUser;
         const todoIds = ref(db, `users/${user.uid}/todos/${todoId}`);
@@ -60,7 +72,7 @@ function Todo() {
         }
     }
 
-
+    //! yapılan todo silindi
     const deleteTodo = (todoId) => {
         const user = auth.currentUser;
         if (user) {
@@ -114,8 +126,6 @@ function Todo() {
         });
     }, [auth])
 
-    console.log("biten işlem => ", completedData);
-
     return (
         <div>
             <input
@@ -133,7 +143,9 @@ function Todo() {
                     todosArray.map((value) => (
                         value.completed === false ? (
                             <li key={value.todoId}>
-                                {value.text}{' '}
+                                {value.text}{' '} 
+                                <p>Tarih : {value.tarih}</p>
+                                <p>Saat : {value.saat}</p>
                                 <button onClick={() => deleteTodo(value.todoId)}>Sil</button>
                                 <button onClick={() => completedTodo(value.todoId)}>Yapıldı</button>
                             </li>
