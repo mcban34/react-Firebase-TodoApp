@@ -84,6 +84,12 @@ function Register() {
         try {
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
+            const db = getDatabase();
+            const userRef = ref(db, `users/${user.uid}`);
+            set(userRef, {
+                todos: "",
+                userName: user.displayName,
+            })
             console.log("Google ile giriş yapıldı:", user);
         } catch (error) {
             console.error("Google ile giriş sırasında hata oluştu:", error);
