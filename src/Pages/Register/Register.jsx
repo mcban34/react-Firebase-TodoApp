@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getDatabase, ref, set } from 'firebase/database';
 import { Row, Col, Container, Collapse } from 'react-bootstrap';
 import Alert from 'react-bootstrap/Alert';
+import { getErrorMessage } from '../../Helper/errorService';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_APIKEY,
@@ -40,12 +41,15 @@ function Register() {
         return () => unsubscribe();
     }, [auth])
 
-    const passAlert = (alertTex) => {
-        setErrorAlert(alertTex)
+    //! helper servicesi çalıştıran fonksiyon
+    const runPassService = (errorCodeParam) => {
+        const errorMessage = getErrorMessage(errorCodeParam);
+        setErrorAlert(errorMessage);
     }
 
     //!e-posta şifre ile kayıt işlemi
-    const kayitOl = () => {
+    const kayitOl = (e) => {
+        e.preventDefault()
         if (password == passwordAgain) {
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
@@ -61,17 +65,8 @@ function Register() {
                     })
                 })
                 .catch((error) => {
-                    const errorCode = error.code;
-
-                    if (errorCode == "auth/invalid-email") {
-                        passAlert("Geçersin E-posta")
-                    }
-                    else if (errorCode == "auth/missing-password") {
-                        passAlert("Geçersin Şifre!")
-                    }
-                    else if (errorCode == "auth/weak-password") {
-                        passAlert("Zayıf Şifre")
-                    }
+                    const errorCode = error.code
+                    runPassService(errorCode)
                 });
         }
         else {
@@ -97,20 +92,22 @@ function Register() {
     }
 
     return (
-        <div className='registerApp'>
+        <div className='loginRegister'>
             <Container>
                 <Row>
-                    <Col lg={5} className='align-self-center '>
-                        <div className="registerForm py-5 px-4">
+                    <Col lg={5} className='align-self-center'>
+                        <div className="loginRegisterForm py-5 px-4">
                             <h3>Kayıt Ol</h3>
                             <p>Kayıt Olmak İçin Lütfen Formu Doldurun!</p>
-                            <input type="text" placeholder='Kullanıcı Adı' onKeyDown={(e) => setUserName(e.target.value)} />
-                            <input type="email" placeholder='E-mail' onKeyDown={(e) => setEmail(e.target.value)} />
-                            <input type="password" placeholder='Şifre' onKeyDown={(e) => setPassword(e.target.value)} />
-                            <input type="password" placeholder='Şifre Tekrar' onKeyDown={(e) => setPasswordAgain(e.target.value)} />
-                            <button className='formButton' onClick={kayitOl}>Kayıt Ol</button>
+                            <form onSubmit={kayitOl}>
+                                <input type="text" placeholder='Kullanıcı Adı' onKeyDown={(e) => setUserName(e.target.value)} />
+                                <input type="email" placeholder='E-mail' onKeyDown={(e) => setEmail(e.target.value)} />
+                                <input type="password" placeholder='Şifre' onKeyDown={(e) => setPassword(e.target.value)} />
+                                <input type="password" placeholder='Şifre Tekrar' onKeyDown={(e) => setPasswordAgain(e.target.value)} />
+                                <input type="submit" value={"Kayıt Ol"} className='formButton' />
+                            </form>
                             <button className='formButton' onClick={handleGoogleLogin}>Google İle Kayı Ol</button>
-                            <h6 className='mt-2'>Hesabın Var mı? <Link to={'/'}>Giriş Yap</Link></h6>
+                            <h6 className='mt-2'>Hesabın Var mı? <Link to={'/login'}>Giriş Yap</Link></h6>
                             {
                                 errorAlert && (
                                     <Alert transition={Collapse} variant={"danger"} className='mt-3' onClose={() => setErrorAlert(null)} dismissible>
