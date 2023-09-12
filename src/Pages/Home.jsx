@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { initializeApp } from "firebase/app";
-import { signOut, getAuth, onAuthStateChanged, useAuth, setPersistence  } from "firebase/auth";
+import { signOut, getAuth, onAuthStateChanged} from "firebase/auth";
 import Todo from '../Components/Todo';
+import {Container,Row,Col} from 'react-bootstrap'
+import HomeHead from '../Components/HomeHead';
 
 
 const firebaseConfig = {
@@ -19,7 +21,9 @@ const auth = getAuth();
 
 
 function Home() {
+  const [userEmail,setUserEmail] = useState("")
   const navigate = useNavigate();
+
 
   //!Çıkış işlemi
   const handleLogout = () => {
@@ -38,16 +42,22 @@ function Home() {
       if (!user) {
         navigate("/");
       }
+      else{
+        setUserEmail(user.email)
+      }
     });
     return () => unsubscribe();
   }, [auth])
 
   return (
     <div>
-      Home
-      <button onClick={handleLogout}>Çıkış Yap</button>
-      <br /><br /><br /><br />
-      <Todo/>
+      <Container>
+        <HomeHead
+          userEmail={userEmail}
+          handleLogout={handleLogout}
+        />
+        <Todo/>
+      </Container>
     </div>
   )
 }
