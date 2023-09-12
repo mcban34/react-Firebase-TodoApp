@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDatabase, ref, set, onValue, push, remove, update } from 'firebase/database';
+import TodoList from './TodoList/TodoList';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_APIKEY,
@@ -143,11 +144,14 @@ function Todo() {
                     todosArray.map((value) => (
                         value.completed === false ? (
                             <li key={value.todoId}>
-                                {value.text}{' '} 
-                                <p>Tarih : {value.tarih}</p>
-                                <p>Saat : {value.saat}</p>
-                                <button onClick={() => deleteTodo(value.todoId)}>Sil</button>
-                                <button onClick={() => completedTodo(value.todoId)}>Yapıldı</button>
+                                <TodoList
+                                    values={value}
+                                    text={value.text}
+                                    tarih={value.tarih}
+                                    saat={value.saat}
+                                    deleteTodo={deleteTodo}
+                                    completedTodo={completedTodo}
+                                />
                             </li>
                         ) : null
                     ))
