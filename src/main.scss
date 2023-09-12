@@ -1,0 +1,19 @@
+$purple : #343194;
+$red : #f74d4d;
+$black : #181920;
+$gray : #aaaaaa;
+
+body{
+    background-color: $purple;
+}
+
+h1,h2,h3,h4,h5,h6,p,ul,li{
+    margin: 0;
+    padding: 0;
+}
+
+img{
+    max-width: 100%
+}
+
+@import './Pages/Register/Register.scss';

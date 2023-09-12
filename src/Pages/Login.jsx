@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword , GoogleAuthProvider, signInWithPopup , onAuthStateChanged } from "firebase/auth";
-import {useNavigate} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_APIKEY,
@@ -63,6 +63,7 @@ function Login() {
             <input type="password" placeholder='şifreniz' onKeyDown={(e) => setSifre(e.target.value)} />
             <button onClick={login}>Giriş Yap</button>
             <button onClick={handleGoogleLogin}>Goole ile giriş yap!</button>
+            <Link to='/register'>Kayıt Ol</Link>
         </div>
     )
 }
