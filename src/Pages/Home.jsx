@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 import { signOut, getAuth, onAuthStateChanged} from "firebase/auth";
 import Todo from '../Components/Todo';
 import {Container,Row,Col} from 'react-bootstrap'
-import HomeHead from '../Components/HomeHead';
+import HomeHead from '../Components/HomeHead/HomeHead';
 
 
 const firebaseConfig = {
@@ -50,7 +50,7 @@ function Home() {
   }, [auth])
 
   return (
-    <div>
+    <div className='home'>
       <Container>
         <HomeHead
           userEmail={userEmail}
