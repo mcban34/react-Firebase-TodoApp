@@ -35,11 +35,11 @@
             }
         }
         .completeButton{
-            background-color: #19ad4a;
+            background-color: $green;
             border-top-right-radius: .5rem;
         }
         .deleteButton{
-            background-color: #ff4343;
+            background-color: $red;
             border-bottom-right-radius: .5rem;
         }
     }

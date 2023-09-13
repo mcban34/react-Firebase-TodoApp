@@ -5,6 +5,7 @@ import { getDatabase, ref, set, onValue, push, remove, update } from 'firebase/d
 import TodoList from '../TodoList/TodoList';
 import { Container, Row, Col } from 'react-bootstrap'
 import CompletedTodo from '../CompletedTodo/CompletedTodo';
+import Addtodo from '../Addtodo/Addtodo';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_APIKEY,
@@ -131,15 +132,17 @@ function Todo() {
 
     return (
         <div>
-            <input
-                type="text"
-                placeholder="İş ekle!"
-                value={todo}
-                onChange={(e) => setTodo(e.target.value)}
-            />
-            <button onClick={addTodo}>Ekle!</button>
-            <Container>
-                <Row>
+            <Container className='mt-5'>
+                <Row className='justify-content-center'>
+                    <Col lg={5} className=''>
+                        <Addtodo
+                            valueAddTodo={todo}
+                            addTodoOnChange={(e) => setTodo(e.target.value)}
+                            addTodo={addTodo}
+                        />
+                    </Col>
+                </Row>
+                <Row className='mt-5'>
                     <Col lg={7}>
                         <ul className='TodosUl'>
                             <h2 className='text-center'>Atanan İşler</h2>
@@ -168,7 +171,7 @@ function Todo() {
                     <Col lg={5}>
                         <ul className='TodosUl'>
                             <h2 className='text-center'>Yapılan İşler</h2>
-                            
+
                             {completedData.length !== 0 ? (
                                 completedData.map((value) => (
                                     <CompletedTodo

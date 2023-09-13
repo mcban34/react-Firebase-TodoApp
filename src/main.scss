@@ -1,7 +1,9 @@
 $purple : #343194;
+$darkPurple : #22206d;
 $red : #f74d4d;
 $black : #181920;
 $gray : #aaaaaa;
+$green : #19ad4a;
 
 body{
     background-color: $purple;
@@ -22,3 +24,4 @@ img{
 @import './Components/Todo/Todo.scss';
 @import './Pages/Home/Home.scss';
 @import './Components/CompletedTodo/CompletedTodo.scss';
+@import './Components/Addtodo/Addtodo.scss';

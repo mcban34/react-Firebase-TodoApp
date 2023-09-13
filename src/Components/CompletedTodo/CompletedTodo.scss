@@ -1,9 +1,9 @@
 .completedTodo{
     color: white;
     display: inline-block;
-    background-color: rgba(25,173,74,.7);
+    background-color: $darkPurple;
     margin-right: .8rem;
     margin-top: .8rem;
-    padding: 6px;
+    padding: 6px 12px;
     border-radius: 3px;
 }

@@ -1,0 +1,22 @@
+.addTodo{
+    display: flex;
+    input{
+        width: 100%;
+        width: 70%;
+        padding: 1rem;
+    }
+    .addTodoButton{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background-color: $green;
+        width: 30%;
+        height: 70px;
+        color: white !important;
+        font-size: 1.5rem;
+        svg{
+           margin-right: .3rem; 
+        }
+    }
+}
