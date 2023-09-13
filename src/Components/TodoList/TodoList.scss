@@ -1,29 +1,46 @@
 .todoList{
     background-color: white;
-    padding: 1rem;
     border-radius: .5rem;
     margin-top: 1rem;
-    .tarih,.saat{
-
+    display: flex;
+    justify-content: space-between;
+    .todoListTop{
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        span{
+            align-items: center;
+            margin-right: .5rem;
+            margin-top: 1rem;
+            color: $gray;
+            svg{
+                margin-bottom: 5px;
+                margin-right: 3px;
+            }
+        }
+        .todoListTopSpans{
+            margin-top: .5rem;
+        }
     }
     .todoListButton{
-        margin-top: .5rem;
         button{
             border: none;
-            width: 40px;
-            height: 40px;
-            margin-right: .5rem;
-            border-radius: 5px;
+            display: block;
+            width: 70px;
+            height: 50%;
+            color: white;
             svg{
                 vertical-align: middle;
                 font-size: 1.5rem;
             }
         }
         .completeButton{
-            background-color: #91ffb6;
+            background-color: #19ad4a;
+            border-top-right-radius: .5rem;
         }
         .deleteButton{
-            background-color: #ff9d9d;
+            background-color: #ff4343;
+            border-bottom-right-radius: .5rem;
         }
     }
 }

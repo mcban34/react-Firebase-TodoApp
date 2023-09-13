@@ -145,7 +145,7 @@ function Todo() {
                             {loading ? (
                                 <p>Yükleniyor...</p>
                             ) : todosArray.length !== 0 ? (
-                                todosArray.map((value) => (
+                                todosArray.slice().reverse().map((value) => (
                                     value.completed === false ? (
                                         <li key={value.todoId} className='todoLi'>
                                             <TodoList
