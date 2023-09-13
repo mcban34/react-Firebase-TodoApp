@@ -1,13 +1,16 @@
 import React from 'react'
+import { AiOutlineDelete, AiOutlineCheckCircle } from 'react-icons/ai';
 
 function TodoList({ values, text, tarih, saat, deleteTodo, completedTodo }) {
     return (
-        <div>
-            <h3>{text}</h3>
-            <p>Tarih: {tarih}</p>
-            <p>Saat: {saat}</p>
-            <button onClick={() => deleteTodo(values.todoId)}>Sil</button>
-            <button onClick={() => completedTodo(values.todoId)}>Tamamlandı</button>
+        <div className='todoList'>
+            <h5>{text}</h5>
+            <span className='tarih'>{tarih}</span>
+            <span className='saat'>{saat}</span>
+            <div className="todoListButton">
+                <button className='completeButton' onClick={() => completedTodo(values.todoId)}><AiOutlineCheckCircle /></button>
+                <button className='deleteButton' onClick={() => deleteTodo(values.todoId)}><AiOutlineDelete /></button>
+            </div>
         </div>
     )
 }

@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { initializeApp } from "firebase/app";
 import { signOut, getAuth, onAuthStateChanged} from "firebase/auth";
-import Todo from '../Components/Todo';
+import Todo from '../../Components/Todo/Todo';
 import {Container,Row,Col} from 'react-bootstrap'
-import HomeHead from '../Components/HomeHead/HomeHead';
-
+import HomeHead from '../../Components/HomeHead/HomeHead';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,

@@ -1,0 +1,29 @@
+.todoList{
+    background-color: white;
+    padding: 1rem;
+    border-radius: .5rem;
+    margin-top: 1rem;
+    .tarih,.saat{
+
+    }
+    .todoListButton{
+        margin-top: .5rem;
+        button{
+            border: none;
+            width: 40px;
+            height: 40px;
+            margin-right: .5rem;
+            border-radius: 5px;
+            svg{
+                vertical-align: middle;
+                font-size: 1.5rem;
+            }
+        }
+        .completeButton{
+            background-color: #91ffb6;
+        }
+        .deleteButton{
+            background-color: #ff9d9d;
+        }
+    }
+}

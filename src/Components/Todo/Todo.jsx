@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDatabase, ref, set, onValue, push, remove, update } from 'firebase/database';
-import TodoList from './TodoList/TodoList';
+import TodoList from '../TodoList/TodoList';
+import { Container, Row, Col } from 'react-bootstrap'
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_APIKEY,
@@ -136,41 +137,49 @@ function Todo() {
                 onChange={(e) => setTodo(e.target.value)}
             />
             <button onClick={addTodo}>Ekle!</button>
-            <h2>Todolar</h2>
-            <ul>
-                {loading ? (
-                    <p>Yükleniyor...</p>
-                ) : todosArray.length !== 0 ? (
-                    todosArray.map((value) => (
-                        value.completed === false ? (
-                            <li key={value.todoId}>
-                                <TodoList
-                                    values={value}
-                                    text={value.text}
-                                    tarih={value.tarih}
-                                    saat={value.saat}
-                                    deleteTodo={deleteTodo}
-                                    completedTodo={completedTodo}
-                                />
-                            </li>
-                        ) : null
-                    ))
-                ) : (
-                    <h2>Henüz Todo Yok!</h2>
-                )}
-            </ul>
-            <h2>Yapılanlar</h2>
-            <ul>
-                {completedData.length !== 0 ? (
-                    completedData.map((value) => (
-                        <li key={value.todoId}>
-                            {value.text}
-                        </li>
-                    ))
-                ) : (
-                    <h2>Henüz Yapılan İş Yok!</h2>
-                )}
-            </ul>
+            <Container>
+                <Row>
+                    <Col lg={6}>
+                        <ul className='TodosUl'>
+                            <h2 className='text-center'>Atanan İşler</h2>
+                            {loading ? (
+                                <p>Yükleniyor...</p>
+                            ) : todosArray.length !== 0 ? (
+                                todosArray.map((value) => (
+                                    value.completed === false ? (
+                                        <li key={value.todoId} className='todoLi'>
+                                            <TodoList
+                                                values={value}
+                                                text={value.text}
+                                                tarih={value.tarih}
+                                                saat={value.saat}
+                                                deleteTodo={deleteTodo}
+                                                completedTodo={completedTodo}
+                                            />
+                                        </li>
+                                    ) : null
+                                ))
+                            ) : (
+                                <h2>Henüz Todo Yok!</h2>
+                            )}
+                        </ul>
+                    </Col>
+                    <Col lg={6}>
+                        <ul className='TodosUl'>
+                            <h2 className='text-center'>Yapılan İşler</h2>
+                            {completedData.length !== 0 ? (
+                                completedData.map((value) => (
+                                    <li key={value.todoId}>
+                                        {value.text}
+                                    </li>
+                                ))
+                            ) : (
+                                <h2>Henüz Yapılan İş Yok!</h2>
+                            )}
+                        </ul>
+                    </Col>
+                </Row>
+            </Container>
         </div>
     );
 }
