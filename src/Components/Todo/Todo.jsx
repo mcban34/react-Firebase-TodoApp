@@ -132,60 +132,58 @@ function Todo() {
 
     return (
         <div>
-            <Container className='mt-5'>
-                <Row className='justify-content-center'>
-                    <Col lg={5} className=''>
-                        <Addtodo
-                            valueAddTodo={todo}
-                            addTodoOnChange={(e) => setTodo(e.target.value)}
-                            addTodo={addTodo}
-                        />
-                    </Col>
-                </Row>
-                <Row className='mt-5'>
-                    <Col lg={7}>
-                        <ul className='TodosUl'>
-                            <h2 className='text-center'>Atanan İşler</h2>
-                            {loading ? (
-                                <p>Yükleniyor...</p>
-                            ) : todosArray.length !== 0 ? (
-                                todosArray.slice().reverse().map((value) => (
-                                    value.completed === false ? (
-                                        <li key={value.todoId} className='todoLi'>
-                                            <TodoList
-                                                values={value}
-                                                text={value.text}
-                                                tarih={value.tarih}
-                                                saat={value.saat}
-                                                deleteTodo={deleteTodo}
-                                                completedTodo={completedTodo}
-                                            />
-                                        </li>
-                                    ) : null
-                                ))
-                            ) : (
-                                <h2>Henüz Todo Yok!</h2>
-                            )}
-                        </ul>
-                    </Col>
-                    <Col lg={5}>
-                        <ul className='TodosUl'>
-                            <h2 className='text-center'>Yapılan İşler</h2>
+            <Row className='justify-content-center'>
+                <Col lg={5} className=''>
+                    <Addtodo
+                        valueAddTodo={todo}
+                        addTodoOnChange={(e) => setTodo(e.target.value)}
+                        addTodo={addTodo}
+                    />
+                </Col>
+            </Row>
+            <Row className='mt-5'>
+                <Col lg={7}>
+                    <ul className='TodosUl'>
+                        <h2 className='text-center'>Atanan İşler</h2>
+                        {loading ? (
+                            <p>Yükleniyor...</p>
+                        ) : todosArray.length !== 0 ? (
+                            todosArray.slice().reverse().map((value) => (
+                                value.completed === false ? (
+                                    <li key={value.todoId} className='todoLi'>
+                                        <TodoList
+                                            values={value}
+                                            text={value.text}
+                                            tarih={value.tarih}
+                                            saat={value.saat}
+                                            deleteTodo={deleteTodo}
+                                            completedTodo={completedTodo}
+                                        />
+                                    </li>
+                                ) : null
+                            ))
+                        ) : (
+                            <h2>Henüz Todo Yok!</h2>
+                        )}
+                    </ul>
+                </Col>
+                <Col lg={5}>
+                    <ul className='TodosUl'>
+                        <h2 className='text-center'>Yapılan İşler</h2>
 
-                            {completedData.length !== 0 ? (
-                                completedData.map((value) => (
-                                    <CompletedTodo
-                                        valueKey={value.todoId}
-                                        valueText={value.text}
-                                    />
-                                ))
-                            ) : (
-                                <h2>Henüz Yapılan İş Yok!</h2>
-                            )}
-                        </ul>
-                    </Col>
-                </Row>
-            </Container>
+                        {completedData.length !== 0 ? (
+                            completedData.map((value) => (
+                                <CompletedTodo
+                                    valueKey={value.todoId}
+                                    valueText={value.text}
+                                />
+                            ))
+                        ) : (
+                            <h2>Henüz Yapılan İş Yok!</h2>
+                        )}
+                    </ul>
+                </Col>
+            </Row>
         </div>
     );
 }
