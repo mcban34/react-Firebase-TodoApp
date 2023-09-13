@@ -4,6 +4,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDatabase, ref, set, onValue, push, remove, update } from 'firebase/database';
 import TodoList from '../TodoList/TodoList';
 import { Container, Row, Col } from 'react-bootstrap'
+import CompletedTodo from '../CompletedTodo/CompletedTodo';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_APIKEY,
@@ -139,7 +140,7 @@ function Todo() {
             <button onClick={addTodo}>Ekle!</button>
             <Container>
                 <Row>
-                    <Col lg={6}>
+                    <Col lg={7}>
                         <ul className='TodosUl'>
                             <h2 className='text-center'>Atanan İşler</h2>
                             {loading ? (
@@ -164,14 +165,16 @@ function Todo() {
                             )}
                         </ul>
                     </Col>
-                    <Col lg={6}>
+                    <Col lg={5}>
                         <ul className='TodosUl'>
                             <h2 className='text-center'>Yapılan İşler</h2>
+                            
                             {completedData.length !== 0 ? (
                                 completedData.map((value) => (
-                                    <li key={value.todoId}>
-                                        {value.text}
-                                    </li>
+                                    <CompletedTodo
+                                        valueKey={value.todoId}
+                                        valueText={value.text}
+                                    />
                                 ))
                             ) : (
                                 <h2>Henüz Yapılan İş Yok!</h2>
